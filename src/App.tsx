@@ -7,6 +7,7 @@ import { FoldersExplorer } from './components/FoldersExplorer';
 import { DetailModal } from './components/DetailModal';
 import { UploadModal } from './components/UploadModal';
 import { SessionSummary } from './components/SessionSummary';
+import { InstallModal } from './components/InstallModal';
 import {
   Trash2,
   FolderInput,
@@ -22,6 +23,7 @@ import {
   FolderPlus,
   Check,
   Flame,
+  Smartphone,
 } from 'lucide-react';
 
 export default function App() {
@@ -62,6 +64,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'swipe' | 'folders' | 'trash'>('swipe');
   const [isTrashOpen, setIsTrashOpen] = useState<boolean>(false);
   const [isUploadOpen, setIsUploadOpen] = useState<boolean>(false);
+  const [isInstallOpen, setIsInstallOpen] = useState<boolean>(false);
   const [detailImage, setDetailImage] = useState<ImageItem | null>(null);
 
   // Sync with LocalStorage
@@ -302,8 +305,18 @@ export default function App() {
               </button>
             </nav>
 
-            {/* Actions: Trash and Upload */}
+            {/* Actions: Install, Trash and Upload */}
             <div className="flex items-center gap-2">
+              {/* Install on Mobile Button */}
+              <button
+                onClick={() => setIsInstallOpen(true)}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-sky-400 text-xs font-semibold transition-all shadow-sm"
+                title="Cómo instalar en tu celular (Android o iPhone)"
+              >
+                <Smartphone className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Instalar en Celular</span>
+              </button>
+
               {/* Trash Quick Button with Saved Storage Counter */}
               <button
                 onClick={() => setIsTrashOpen(true)}
@@ -520,6 +533,12 @@ export default function App() {
           );
           setDetailImage((prev) => (prev ? { ...prev, isFavorite: !prev.isFavorite } : null));
         }}
+      />
+
+      {/* 4. Install on Mobile PWA Modal */}
+      <InstallModal
+        isOpen={isInstallOpen}
+        onClose={() => setIsInstallOpen(false)}
       />
     </div>
   );
